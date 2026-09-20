@@ -1,4 +1,4 @@
-"""Dependency-free student records, grades, CSV persistence, and reports."""
+﻿"""Dependency-free student records, grades, CSV persistence, and reports."""
 from __future__ import annotations
 
 import csv
@@ -130,10 +130,11 @@ def main() -> None:
     actions = {"1": lambda: print("\n".join(f"{s.student_id:<8} {s.full_name:<24} {s.email:<28} {s.average if s.average is not None else 'N/A'}" for s in registry.all())),
                "4": lambda: print(student_report(registry.require(input("Student ID: ").strip()))),
                "5": lambda: print("\n".join(f"{s.student_id} | {s.full_name} | {s.email}" for s in registry.search(input("Search: ")))),
-               "6": lambda: print("Removed." if registry.students.pop(input("Student ID: ").strip(), None) else "Student not found.")}
+               "6": lambda: print("Removed." if registry.students.pop(input("Student ID: ").strip(), None) else "Student not found."),
+               "9": lambda: print(class_report(registry.all()))}
     print("Student Management System (Python)")
     while True:
-        print("\n[1] List [2] Add student [3] Record grade [4] Report [5] Search [6] Remove [7] Save CSV [8] Load CSV [0] Exit")
+        print("\n[1] List [2] Add student [3] Record grade [4] Report [5] Search [6] Remove [7] Save CSV [8] Load CSV [9] Class report [0] Exit")
         choice = input("> ").strip()
         try:
             if choice == "0": print("Goodbye."); return
@@ -146,10 +147,12 @@ def main() -> None:
                 print("Grade recorded.")
             elif choice == "7": registry.save(input("CSV path: ")); print("Saved.")
             elif choice == "8": print(f"Loaded {registry.load(input('CSV path: '))} student(s).")
-            else: print("Please choose a number from 0 to 8.")
+            else: print("Please choose a number from 0 to 9.")
         except (ValueError, OSError) as error:
             print(f"Error: {error}")
 
 
 if __name__ == "__main__":
     main()
+
+
